@@ -1,0 +1,14 @@
+<tr th:each="cliente : ${clientes}">
+    <td scope="col" th:text="${cliente.id}"></td>
+    <td scope="col" th:text="${cliente.nombre}"></td>
+    <td scope="col" th:text="${cliente.numero}"></td>
+    <td scope="col">
+        <button class="btn btn-primary btn-editar me-1 mt-1" th:data-id="${cliente.id}">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-danger btn-eliminar me-1 mt-1" th:data-id="${cliente.id}">
+            <i class="bi bi-trash"></i>
+        </button>
+    </td>
+</tr>
+

@@ -1,0 +1,45 @@
+<form id="frmCuenta" method="post">
+    <input type="hidden" id="hidIdFC" name="hidIdFC">
+
+    <div class="mb-1">
+        <label for="idCliente">Cliente</label>
+        <select name="idCliente" id="idCliente" class="form-control">
+            <option value="">Seleccione un cliente</option>
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+        </select>
+    </div>
+
+    <div class="mb-1">
+        <label for="txtMontoFC">Monto</label>
+        <input type="number" class="form-control" id="txtMontoFC" name="txtMontoFC">
+    </div>
+
+    <div class="mb-1 text-end">
+        <button class="btn btn-primary" id="btnGuardarFC" name="btnGuardarFC">
+            {{ textBtnGuardar }}
+        </button>
+        <button class="btn btn-secondary" type="reset" id="btnCancelarFC" name="btnCancelarFC">Cancelar</button>
+    </div>
+</form>
+
+<div class="input-group mb-1">
+    <input type="text" class="form-control" id="txtBusqueda">
+    <button id="btnBuscar" class="btn btn-outline-primary">
+        <i class="bi bi-search"></i>
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead class="table-active">
+            <tr>
+                <th>Id</th>
+                <th>Nombre Cliente</th>
+                <th>Monto</th>
+                <th>Fecha y Hora</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbodyCuentas"></tbody>
+    </table>
+</div>
