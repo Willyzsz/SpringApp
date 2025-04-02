@@ -68,6 +68,24 @@ function buscarProductos() {
     })
 }
 
+function buscarCompras() {
+    $("#tbodyCompras").html(`<tr>
+        <td colspan="4">
+            <div class="text-center p-1">
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </td>
+    <tr>`)
+
+
+    $.get("/comprarRuta/buscar", {
+    }, function (trs) {
+        $("#tbodyCompras").html(trs)
+    })
+}
+
 const app = angular.module("angularjsApp", ["ngRoute"])
 app.config(function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix("")
@@ -88,6 +106,10 @@ app.config(function ($routeProvider, $locationProvider) {
     .when("/productos", {
         templateUrl: "/productosRuta/",
         controller: "productosCtrl"
+    })
+    .when("/comprar", {
+        templateUrl: "/comprarRuta/",
+        controller: "comprarCtrl"
     })
     .otherwise({
         redirectTo: "/"
@@ -120,17 +142,22 @@ app.run(["$rootScope", "$location", "$timeout", function($rootScope, $location, 
         $("html").css("overflow-x", "hidden")
 
         const path = current.$$route.originalPath
-        console.log(path)
 
         $.get("/usuariosRuta/checkSession", function (respuesta) {
-            console.log(respuesta)
-            const login = (respuesta.indexOf("Usuario logueado") !== -1)
+
+            const login = respuesta.login
 
             $rootScope.spinnerGrow = false
             $rootScope.login       = login
+            $rootScope.userRole    = respuesta.role
+
             if (login) {
                 if (path == "/") {
-                    window.location = "/#/clientes"
+                    if (respuesta.role != "ROLE_admin") {
+                        window.location = "/#/comprar"
+                    } else {
+                        window.location = "/#/clientes"
+                    }
                 }
             }
             else {
@@ -167,21 +194,6 @@ app.run(["$rootScope", "$location", "$timeout", function($rootScope, $location, 
 }])
 
 app.controller("usuariosCtrl", function ($scope, $http) {
-    $scope.login = false;
-    $scope.userRole = null;
-    $scope.spinnerGrow = true;
-
-    function checkSession() {
-        $http.get("/usuariosRuta/checkSession").then(function(response) {
-            $scope.login = response.data.loggedIn;
-            $scope.userRole = response.data.role;
-            $scope.spinnerGrow = false;
-        });
-    }
-
-    checkSession();
-    setInterval(checkSession, 30000); // Check every 30 seconds
-
     $("#frmInicioSesion").submit(function (event) {
         event.preventDefault()
         
@@ -321,7 +333,6 @@ app.controller("cuentasCtrl", function ($scope, $http) {
         const idCuenta = parseInt($(this).data("id"))
 
         $.get(`/cuentasRuta/editar/${idCuenta}`, function (cuenta) {
-            console.log(cuenta)
             $("#hidIdFC").val(cuenta.id)
             $("#idCliente").val(cuenta.cliente.id)
             $("#txtMontoFC").val(cuenta.monto)
@@ -433,6 +444,55 @@ app.controller("productosCtrl", function ($scope, $http) {
     $("#btnBuscar").click(function (event) {buscarProductos()})
     buscarProductos()
 })
+
+app.controller("comprarCtrl", function ($scope, $http) {
+    const textDefaultBtnGuardar = "Registrar"
+
+    $scope.textBtnGuardar = textDefaultBtnGuardar
+
+    $("#frmComprar")
+    .on("reset", function (event) {
+        $("#hidIdFC").val("")
+        $scope.textBtnGuardar = textDefaultBtnGuardar
+    })
+    .submit(function (event) {
+        const idProducto = $("#idProducto").val()
+        const cantidad = $("#txtCantidad").val()
+
+        $.get("/comprarRuta/obtenerProducto", {idProducto}, function (respuesta) {    
+            const data = {
+                "producto": {
+                    id: parseInt(idProducto),
+                    nombreProducto: respuesta.nombreProducto,
+                    precio: respuesta.precio,
+                    stock: respuesta.stock,
+                },
+                "cantidad": parseInt(cantidad)
+            }
+
+            $.ajax({
+                url: "/comprarRuta/guardar",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response == "correcto") {
+                        buscarCompras()
+                        toast("Producto comprado correctamente")
+                    } else {
+                        toast(response)
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error)
+                }
+            })
+        })
+    })
+
+    buscarCompras()
+})
+
 
 const DateTime = luxon.DateTime
 let lxFechaHora

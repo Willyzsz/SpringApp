@@ -12,13 +12,16 @@ public class ClienteService {
     @Autowired
     private ClienteRepository repository;
 
-
     public Cliente findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
     public List<Cliente> findByNombreLike(String nombre) {
         return (List<Cliente>) repository.findByNombreLike(nombre);
+    }
+
+    public Cliente findByNombre(String nombre) {
+        return repository.findByNombre(nombre);
     }
 
     public Cliente save(Cliente cliente) {

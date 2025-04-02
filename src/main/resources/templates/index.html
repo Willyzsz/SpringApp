@@ -89,18 +89,19 @@
         <li class="nav-item ng-hide" ng-show="!login && !spinnerGrow">
             <a class="nav-link" href="#/">Iniciar Sesión</a>
         </li>
+
         <li class="nav-item ng-hide" ng-show="login && !spinnerGrow">
             <a class="nav-link" href="#/comprar">Comprar Productos</a>
         </li>
-        
-        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow && userRole === 'ROLE_ADMIN'">
+
+        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow && userRole === 'ROLE_admin'">
             <a class="nav-link" href="#/productos">Productos</a>
         </li>
         
-        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow">
+        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow && userRole === 'ROLE_admin'">
             <a class="nav-link" href="#/clientes">Clientes</a>
         </li>
-        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow">
+        <li class="nav-item ng-hide" ng-show="login && !spinnerGrow && userRole === 'ROLE_admin'">
             <a class="nav-link" href="#/cuentas">Cuentas</a>
         </li>
     </ul>

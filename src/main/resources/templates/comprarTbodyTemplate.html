@@ -1,0 +1,7 @@
+<tr th:each="cuenta : ${cuentas}">
+    <td scope="col" th:text="${cuenta.id}"></td>
+    <td scope="col" th:text="${cuenta.cliente.nombre}"></td>
+    <td scope="col" th:text="${cuenta.monto}"></td>
+    <td scope="col" th:text="${cuenta.fechaHora}"></td>
+</tr>
+

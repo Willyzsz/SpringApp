@@ -13,6 +13,10 @@ public class ProductoService {
     @Autowired
     private ProductoRepository repository;
 
+    public List<Producto> findAll() {
+        return repository.findAll();
+    }
+
     public Producto findById(Long id) {
         return repository.findById(id).orElse(null);
     }

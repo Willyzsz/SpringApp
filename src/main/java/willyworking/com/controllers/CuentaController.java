@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import java.util.List;
 import java.time.LocalDateTime;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-// @PreAuthorize("isAuthenticated()") 
+@PreAuthorize("hasRole('ROLE_admin')") 
 @Controller
 @RequestMapping("/cuentasRuta")
 @CrossOrigin("*")

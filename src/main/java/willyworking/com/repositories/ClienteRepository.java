@@ -11,4 +11,7 @@ import java.util.List;
 public interface ClienteRepository extends CrudRepository<Cliente, Long> {
     @Query("SELECT cl FROM Cliente cl WHERE cl.nombre LIKE %:nombre%")
     List<Cliente> findByNombreLike(@Param("nombre") String nombre);
+
+    @Query("SELECT cl FROM Cliente cl WHERE cl.nombre = :nombre")
+    Cliente findByNombre(@Param("nombre") String nombre);
 }

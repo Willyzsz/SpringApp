@@ -7,8 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-// @PreAuthorize("isAuthenticated()") 
+@PreAuthorize("hasRole('ROLE_admin')") 
 @Controller
 @RequestMapping("/clientesRuta")
 @CrossOrigin("*")

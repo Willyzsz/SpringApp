@@ -20,6 +20,9 @@ public interface CuentaRepository extends CrudRepository<Cuenta, Long> {
     @Query("SELECT c FROM Cuenta c JOIN FETCH c.cliente WHERE c.cliente.nombre LIKE %:nombre%")
     List<Cuenta> findAllWithCliente(@Param("nombre") String nombre);
 
+    @Query("SELECT c FROM Cuenta c JOIN FETCH c.cliente WHERE c.cliente.id = :id")
+    Cuenta findByIdWithCliente(@Param("id") Long id);
+
     @Query("SELECT cl FROM Cliente cl")
     List<Cliente> findAllClientes();
 }

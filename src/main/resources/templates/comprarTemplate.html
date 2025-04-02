@@ -1,13 +1,19 @@
-<form id="frmCliente" method="post">
-    <input type="hidden" id="hidIdFC" name="hidIdFC">
+<form id="frmComprar" method="post">
+    
     <div class="mb-1">
-        <label for="txtNombreFC">Nombre</label>
-        <input type="text" class="form-control" id="txtNombreFC" name="txtNombreFC">
+        <label for="idProducto">Producto</label>
+        <select name="idProducto" id="idProducto" class="form-control">
+            <option value="">Seleccione un Producto</option>
+            <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombreProducto}"></option>
+        </select>
     </div>
+
     <div class="mb-1">
-        <label for="txtNumeroFC">Numero</label>
-        <input type="number" class="form-control" id="txtNumeroFC" name="txtNumeroFC">
+        <label for="txtCantidad">Cantidad</label>
+        <input type="number" class="form-control" id="txtCantidad" name="txtCantidad">
     </div>
+
+    <br>
 
     <div class="mb-1 text-end">
         <button class="btn btn-primary" id="btnGuardarFC" name="btnGuardarFC">
@@ -17,6 +23,8 @@
     </div>
 </form>
 
+<br>
+
 <div class="input-group mb-1">
     <input type="text" class="form-control" id="txtBusqueda">
     <button id="btnBuscar" class="btn btn-outline-primary">
@@ -24,16 +32,24 @@
     </button>
 </div>
 
+<br>
+
+<div class="center-text">
+    <h3>Compras</h3>
+</div>
+
+<br>
+
 <div class="table-responsive">
     <table class="table table-sm">
         <thead class="table-active">
             <tr>
                 <th>Id</th>
-                <th>Nombre</th>
-                <th>Numero</th>
-                <th></th>
+                <th>Producto</th>
+                <th>Monto</th>
+                <th>Fecha</th>
             </tr>
         </thead>
-        <tbody id="tbodyClientes"></tbody>
+        <tbody id="tbodyCompras"></tbody>
     </table>
 </div>

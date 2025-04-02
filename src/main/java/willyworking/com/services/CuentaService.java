@@ -27,6 +27,10 @@ public class CuentaService {
         return (List<Cuenta>) repository.findAllWithCliente(nombre);
     }
 
+    public Cuenta findByIdWithCliente(Long id) {
+        return repository.findByIdWithCliente(id);
+    }
+
     public List<Cuenta> OrderByMontoDesc() {
         return (List<Cuenta>) repository.OrderByMontoDesc();
     }

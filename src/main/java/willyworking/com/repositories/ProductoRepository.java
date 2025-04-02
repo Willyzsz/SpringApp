@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ProductoRepository extends CrudRepository<Producto, Long> {
+    List<Producto> findAll();
+
     @Query("SELECT p FROM Producto p ORDER BY p.precio DESC")
     List<Producto> OrderByPrecioDesc();
 
@@ -19,9 +21,10 @@ public interface ProductoRepository extends CrudRepository<Producto, Long> {
     @Query("SELECT p FROM Producto p WHERE p.stock > 0")
     List<Producto> findAllWithStock();
 
+    @Query("SELECT p FROM Producto p WHERE p.nombreProducto LIKE %:nombreProducto%")
+    List<Producto> findByNombreLike(@Param("nombreProducto") String nombreProducto);
+
     @Query("SELECT cl.nombre FROM Cliente cl")
     List<Cliente> findAllWithCliente();
 
-    @Query("SELECT p FROM Producto p WHERE p.nombreProducto LIKE %:nombreProducto%")
-    List<Producto> findByNombreLike(@Param("nombreProducto") String nombreProducto);
 }

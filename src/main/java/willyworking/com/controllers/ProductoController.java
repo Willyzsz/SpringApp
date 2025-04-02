@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-// @PreAuthorize("isAuthenticated()") 
-// @PreAuthorize("hasRole('ADMIN')") 
 
+@PreAuthorize("hasRole('ROLE_admin')") 
 @Controller
 @RequestMapping("/productosRuta")
 @CrossOrigin("*")
@@ -22,10 +22,6 @@ public class ProductoController {
     public String index() {
         return "productosTemplate";
     }
-
-//    if (auth.getAuthorities().stream()
-//            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-//     }
 
     @GetMapping("/buscar")
     public String buscar( 
@@ -72,5 +68,9 @@ public class ProductoController {
     // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     // String username = auth.getName();
     // Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
+    
+    //    if (auth.getAuthorities().stream()
+    //            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+    //     }
     
 }
